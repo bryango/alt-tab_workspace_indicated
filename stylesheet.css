@@ -1,0 +1,11 @@
+
+.alt-tab-app-current
+{
+    font-weight: bold;
+}
+
+.alt-tab-app-other
+{
+    color: #c0c0c0;
+    font-style: italic;
+}
