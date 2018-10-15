@@ -4,6 +4,8 @@ const AltTab = imports.ui.altTab;
 const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
 
+const WorkspaceManager = global.screen || global.workspace_manager;
+
 var _originalProto = [];
 
 var windowTracker;
@@ -12,7 +14,7 @@ var windowCount;
 
 const appSwitcher_init = function(apps, altTabPopup)
 {
-    let workspace = global.screen.get_active_workspace();
+    let workspace = WorkspaceManager.get_active_workspace();
 
     // retrieve window list for all workspaces
     let allWindows = global.display.get_tab_list(Meta.TabList.NORMAL, null);
@@ -45,7 +47,7 @@ const appSwitcher_init = function(apps, altTabPopup)
 
 const windowList_init = function(windows, mode)
 {
-    let workspace = global.screen.get_active_workspace();
+    let workspace = WorkspaceManager.get_active_workspace();
 
     let windowsCurrent = windows.filter(window => window.get_workspace() == workspace);
     let windowsOther = windows.filter(window => window.get_workspace() != workspace);

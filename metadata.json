@@ -4,7 +4,8 @@
   "name": "Alt-Tab Current Workspace First", 
   "shell-version": [
     "3.22", 
-    "3.24"
+    "3.24",
+    "3.30"
   ], 
   "url": "", 
   "uuid": "alt-tab_current_workspace_first@fawtytoo", 
