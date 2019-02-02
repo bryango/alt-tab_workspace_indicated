@@ -12,8 +12,7 @@ var windowTracker;
 
 var windowCount;
 
-const appSwitcher_init = function(apps, altTabPopup)
-{
+const appSwitcher_init = function(apps, altTabPopup) {
     let workspace = WorkspaceManager.get_active_workspace();
 
     // retrieve window list for all workspaces
@@ -31,8 +30,7 @@ const appSwitcher_init = function(apps, altTabPopup)
     let appCount = appsCurrent.length; // number of apps on the current workspace
 
     // tidy up the cachedWindows on each AppIcon
-    for (let i = 0; i < aIcons.length; i++)
-    {
+    for (let i = 0; i < aIcons.length; i++) {
         if (aIcons[i].cachedWindows.length == 0) // support for Super+Tab Launcher extension
             continue;
 
@@ -45,8 +43,7 @@ const appSwitcher_init = function(apps, altTabPopup)
     }
 };
 
-const windowList_init = function(windows, mode)
-{
+const windowList_init = function(windows, mode) {
     let workspace = WorkspaceManager.get_active_workspace();
 
     let windowsCurrent = windows.filter(window => window.get_workspace() == workspace);
@@ -57,35 +54,30 @@ const windowList_init = function(windows, mode)
     _originalProto['windowList_init'].apply(this, [windowsCurrent.concat(windowsOther), mode]);
 };
 
-const windowList_highlight = function(index, justOutline)
-{
+const windowList_highlight = function(index, justOutline) {
     _originalProto['windowList_highlight'].apply(this, [index, justOutline]);
 
     this._label.remove_style_class_name(index < windowCount ? 'alt-tab-app-other' : 'alt-tab-app-current');
     this._label.add_style_class_name(index < windowCount ? 'alt-tab-app-current' : 'alt-tab-app-other');
 };
 
-function changeProto(parent, name, object)
-{
+function changeProto(parent, name, object) {
     let original = parent[name];
     parent[name] = object;
     return original;
 }
 
-function init()
-{
+function init() {
     windowTracker = Shell.WindowTracker.get_default();
 }
 
-function enable()
-{
+function enable() {
     _originalProto['appSwitcher_init'] = changeProto(AltTab.AppSwitcher.prototype, '_init', appSwitcher_init);
     _originalProto['windowList_init'] = changeProto(AltTab.WindowList.prototype, '_init', windowList_init);
     _originalProto['windowList_highlight'] = changeProto(AltTab.WindowList.prototype, 'highlight', windowList_highlight);
 }
 
-function disable()
-{
+function disable() {
     AltTab.AppSwitcher.prototype._init = _originalProto['appSwitcher_init'];
     AltTab.WindowList.prototype._init = _originalProto['windowList_init'];
     AltTab.WindowList.prototype.highlight = _originalProto['windowList_highlight'];
