@@ -47,25 +47,29 @@ const windowList_init = function(windows, mode) {
     let workspace = WorkspaceManager.get_active_workspace();
 
     windowsCurrent = windows.filter(window => window.get_workspace() == workspace);
-    // let windowsOther = windows.filter(window => window.get_workspace() != workspace);
+    windowsOther = windows.filter(window => window.get_workspace() != workspace);
     windowsAll = windows
 
     windowCount = windowsCurrent.length;
 
-    // _originalProto['windowList_init'].apply(this, [windowsCurrent.concat(windowsOther), mode]);
+    // current workspace first
+    _originalProto['windowList_init'].apply(this, [windowsCurrent.concat(windowsOther), mode]);
 
-    // personal favor: do not change sequence, just mark the apps
-    _originalProto['windowList_init'].apply(this, [windows, mode]);
+    // // personal favor: do not change sequence, just mark the apps
+    // _originalProto['windowList_init'].apply(this, [windows, mode]);
 
 };
 
 const windowList_highlight = function(index, justOutline) {
     _originalProto['windowList_highlight'].apply(this, [index, justOutline]);
 
-    // this._label.remove_style_class_name(index < windowCount ? 'alt-tab-app-other' : 'alt-tab-app-current');
-    // this._label.add_style_class_name(index < windowCount ? 'alt-tab-app-current' : 'alt-tab-app-other');
-    this._label.remove_style_class_name(windowsCurrent.indexOf(windowsAll[index]) > -1 ? 'alt-tab-app-other' : 'alt-tab-app-current');
-    this._label.add_style_class_name(windowsCurrent.indexOf(windowsAll[index]) > -1 ? 'alt-tab-app-current' : 'alt-tab-app-other');
+    // current workspace first
+    this._label.remove_style_class_name(index < windowCount ? 'alt-tab-app-other' : 'alt-tab-app-current');
+    this._label.add_style_class_name(index < windowCount ? 'alt-tab-app-current' : 'alt-tab-app-other');
+
+    // // personal favor: do not change sequence, just mark the apps
+    // this._label.remove_style_class_name(windowsCurrent.indexOf(windowsAll[index]) > -1 ? 'alt-tab-app-other' : 'alt-tab-app-current');
+    // this._label.add_style_class_name(windowsCurrent.indexOf(windowsAll[index]) > -1 ? 'alt-tab-app-current' : 'alt-tab-app-other');
 };
 
 function changeProto(parent, name, object) {
